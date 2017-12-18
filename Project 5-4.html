@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<!-- CIS213 -->
+<html>
+  <head>
+    <title>Project 5-4</title>
+    <meta charset="UTF-8">
+	<!-- <link rel="stylesheet" type="text/css" href="Project 5-4.css" /> -->
+	<style type="text/css">
+
+		.container {
+  			display: flex;
+		}
+		ul {
+			list-style: none;
+		}
+		li {
+			margin-left: -10px;
+			list-style: none;
+			display: flex;
+		}
+		li:hover {
+			background-color: #81D4FA;
+		}
+		.col1 li {
+			background-color: aqua;
+		}
+		.col1 li.white {
+			background-color: white;
+		}
+		.col3 li {
+			background-color: aqua;
+		}
+		.col3 li.white {
+			background-color: white;
+		}
+		/*.column {
+		  float: right;
+		 /* display: inline-block; 
+		  height: 100px;
+		} */
+		.column1,
+		.column3 {
+			border: 1px solid black;
+			text-align: center;
+		}
+		.column2 {
+		 	margin: 20px 0px 20px 0px;
+			/*padding: 1px;*/
+			display: -webkit-flex;
+			display: flex;
+		    -webkit-flex-direction: column;
+		  	flex-direction: column;
+		    -webkit-justify-content: center;
+		    justify-content: center;
+		}
+		span {
+		    margin: 0px;
+		}
+		#left-button, 
+		#right-button{
+		    height: 25px;
+		    border-radius: 0px;
+		/*   border: 0 none; */
+		/*   background-color: #fcfcfc; */
+		}
+		#left-button {
+		    margin-right: -1.9px;
+		}
+		#right-button {
+		    margin-left: -1.9px;
+		}
+		.up,
+		.down, 
+		.remove {
+		   flex: auto;
+		}
+		.input {
+		    text-align: center;
+		}
+		button {
+		    cursor: pointer;
+		}
+		li button {
+		    justify-content: flex-end;
+		}
+
+	</style>
+</head>
+<body>
+	<div class="container">
+		<div class="column column1">
+			<!-- Selection List 1 -->
+      <input class="input input-col1" placeholder="Title">
+			<ol class="col1">
+        <li class="white">Benjamin Patton</li>
+        <li class="white">Brendan Busic</li>
+        <li class="white">Brylee Despinis</li>
+        <li class="white">Christopher Odden</li>
+        <li class="white">Jami Sims</li>
+        <li class="white">Michael Edens</li>
+        <li class="white">Saloni Kaushik</li>
+        <li class="white">Samuel Farleigh</li>
+			</ol>
+      <input class="input item-left">
+      <button class="add-left">Add</button>
+		</div>
+    
+		<div class="column column2">
+      <button class="up">Up</button>
+      <span>
+        <button id="left-button"><<</button>
+        <button id="right-button">>></button>
+      </span>
+      <button class="down">Down</button>
+      <button class="remove">Remove</button>
+		</div>	
+    
+		<div class="column column3">
+			<!-- Selection List 2 -->
+      <input class="input input-col3" placeholder="Title">
+			<ol class="col3">
+        <li class="white">Austin Spillman</li>
+        <li class="white">Christopher Vought</li>
+        <li class="white">Donald Pabst</li>
+        <li class="white">John-Paul Kneipp</li>
+        <li class="white">John Short</li>
+        <li class="white">Kenneth Walker</li>
+        <li class="white">Renzo Maguina</li>
+        <li class="white">Sean Broderick</li>
+			</ol>
+      <input class="input item-right">
+      <button class="add-right">Add</button>
+		</div>
+	</div>
+	<script>
+		const buttonUp = document.querySelector('.up');
+		const buttonDown = document.querySelector('.down');
+		const buttonLeft = document.getElementById('left-button');
+		const addLeft = document.querySelector('.add-left');
+		const addInputLeft = document.querySelector('.item-left');
+		const buttonRight = document.getElementById('right-button');
+		const addRight = document.querySelector('.add-right');
+		const addInputRight = document.querySelector('.item-right');
+		const removeButton = document.querySelector('.remove');
+		const rightOl = document.querySelector('.col3');
+		const leftOl = document.querySelector('.col1');
+		const rightItems = rightOl.children; // all right list items
+		const leftItems = leftOl.children; // all left list items
+
+		// ** should I make it so only one column can have selected item? **
+		// click to highlight selected (both sides working)
+		rightOl.addEventListener('click', (e) => {
+		  if (e.target.className.indexOf('aqua') >= 0) {
+		    e.target.classList.remove('aqua');
+		    e.target.classList.add('white');
+		  } else {
+		      if (rightOl.querySelectorAll('.aqua').length) {
+		        rightOl.querySelectorAll('.aqua')[0].className = 'white';
+		      }
+		      if (leftOl.querySelectorAll('.aqua').length) {
+		        leftOl.querySelectorAll('.aqua')[0].className = 'white';
+		      }
+		      if (e.target.className.indexOf('white') >= 0) {
+		        e.target.classList.add('aqua');
+		        e.target.classList.remove('white');
+		      } 
+		  }
+		});
+		leftOl.addEventListener('click', (e) => { 
+		  if (e.target.className.indexOf('aqua') >= 0) {
+		    e.target.classList.remove('aqua');
+		    e.target.classList.add('white');
+		  } else { 
+		      if (leftOl.querySelectorAll('.aqua').length) {
+		        leftOl.querySelectorAll('.aqua')[0].className = 'white';
+		      }
+		      if (rightOl.querySelectorAll('.aqua').length) {
+		        rightOl.querySelectorAll('.aqua')[0].className = 'white';
+		      }
+		      if (e.target.className.indexOf('white') >= 0) {
+		        e.target.classList.add('aqua');
+		        e.target.classList.remove('white');
+		      } 
+		  }
+		});
+
+		// remove selected item (both sides working)
+		removeButton.addEventListener('click', (e) => {
+		  let selectedLeft = leftOl.querySelectorAll('.aqua')[0];
+		  let selectedRight = rightOl.querySelectorAll('.aqua')[0];
+		  if (selectedLeft) {
+		    selectedLeft.remove();
+		  } 
+		  if (selectedRight) {
+		    selectedRight.remove();
+		  }
+		});
+
+		// up button, both sides working
+		buttonUp.addEventListener('click', (e) => {
+		  let aquaR = rightOl.querySelectorAll('.aqua')[0];
+		  let aquaL = leftOl.querySelectorAll('.aqua')[0];
+		  if (aquaR) {
+		    let prevLiR = aquaR.previousElementSibling;
+		    rightOl.insertBefore(aquaR, prevLiR);
+		  } 
+		  if (aquaL) {
+		    let prevLiL = aquaL.previousElementSibling;
+		    leftOl.insertBefore(aquaL, prevLiL);
+		  }
+		});
+		// down button, both sides working
+		buttonDown.addEventListener('click', (e) => {
+		  let aquaR = rightOl.querySelectorAll('.aqua')[0];
+		  let aquaL = leftOl.querySelectorAll('.aqua')[0];
+		  if (aquaR) {
+		    let nextLiR = aquaR.nextElementSibling;
+		    if (rightItems[rightItems.length - 1] == aquaR) {
+		      rightOl.insertBefore(aquaR, rightItems[0]);
+		    } else {
+		      rightOl.insertBefore(nextLiR, aquaR);
+		    }
+		  }
+		  if (aquaL) {
+		    let nextLiL = aquaL.nextElementSibling;
+		    if (leftItems[leftItems.length - 1] == aquaL) {
+		      leftOl.insertBefore(aquaL, leftItems[0]);
+		    } else {
+		      leftOl.insertBefore(nextLiL, aquaL);
+		    }
+		  }
+		});
+		// left button working. Buttons now remove highlight for item in same list
+		buttonLeft.addEventListener('click', (e) => {
+		  let aquaR = rightOl.querySelectorAll('.aqua')[0];
+		  let aquaL = leftOl.querySelectorAll('.aqua')[0];
+		  if (aquaR) {
+		    leftOl.appendChild(aquaR);
+		    aquaR.classList.remove('aqua');
+		    aquaR.classList.add('white');
+		  } 
+		  if (aquaL) {
+		    aquaL.classList.remove('aqua');
+		    aquaL.classList.add('white');
+		  }
+		});
+		// working
+		buttonRight.addEventListener('click', (e) => {
+		  let aquaR = rightOl.querySelectorAll('.aqua')[0];
+		  let aquaL = leftOl.querySelectorAll('.aqua')[0];
+		  if (aquaL) {
+		    rightOl.appendChild(aquaL);
+		    aquaL.classList.remove('aqua');
+		    aquaL.classList.add('white');
+		  } 
+		  if (aquaR) {
+		    aquaR.classList.remove('aqua');
+		    aquaR.classList.add('white');
+		  }
+		});
+
+		// done
+		addLeft.addEventListener('click', (e) => { 
+		  let li = document.createElement('li');
+		  li.textContent = addInputLeft.value;
+		  li.classList.add('white');
+		  leftOl.appendChild(li);
+		  addInputLeft.value = '';
+		});
+		// done
+		addRight.addEventListener('click', () => {
+		  let li = document.createElement('li');
+		  li.textContent = addInputRight.value;
+		  li.classList.add('white');
+		  rightOl.appendChild(li);
+		  addInputRight.value = '';
+		});
+
+
+	</script>
+</body>
+</html>
