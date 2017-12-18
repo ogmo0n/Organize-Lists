@@ -1,2 +1,2 @@
 # Organize-Lists
-CIS213 Project 5-4
+CIS213 JavaScript Project 5-4
